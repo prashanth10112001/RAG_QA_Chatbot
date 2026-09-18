@@ -45,44 +45,6 @@ def document_process(path):
 
 
 
-# User Query
-# query = "What are the case studies done in the provided paper?"
-# documents = vector_db.similarity_search(query=query, k=2)
-# print("similarity search docs created")
-
-
-
-# context
-
-# context = ""
-# for doc in documents:
-#     context = context + doc.page_content + "\n\n"
-
-# prompt = f"""
-#     You are a helpful assistant and provide answer based on the provided context.
-#     Context: {context},
-#     Question: {query}
-# """
-# print("created context")
-
-# print("intitalized llm")
-
-# answer = llm.invoke(prompt)
-# print("called llm")
-
-
-# print(answer.content)
-# Extract only the text content cleanly
-# if isinstance(answer.content, list):
-#     # If it's a list of blocks, join all text parts together
-#     clean_answer = "".join([item.get("text", "") for item in answer.content if isinstance(item, dict) and item.get("type") == "text"])
-# else:
-#     # If it's already a string
-#     clean_answer = answer.content
-
-# print(clean_answer)
-
-
 st.subheader("Document Q&A ChatBot - Ask Anything")
 
 if "document_uploaded" not in st.session_state:
@@ -136,12 +98,9 @@ if st.session_state.document_uploaded and st.session_state.vector_db:
 
         print(result.content)
         if isinstance(result.content, list):
-            # If it's a list of blocks, join all text parts together
             clean_answer = "".join([item.get("text", "") for item in result.content if isinstance(item, dict) and item.get("type") == "text"])
         else:
-            # If it's already a string
             clean_answer = result.content
-        print(clean_answer)
 
         st.session_state.messages.append({"role":"ai","content":clean_answer})
         st.chat_message("ai").markdown(clean_answer)
